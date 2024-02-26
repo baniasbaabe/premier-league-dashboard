@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "premier-league-dashboard"
+version = "0.1.0"
+description = ""
+authors = ["baniasbaabe <banias@hotmail.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+pymongo = {extras = ["srv"], version = "^4.6.2"}
+polars = "^0.20.10"
+soccerdata = "^1.6.0"
+packaging = "^23.2"
+pyarrow = "^15.0.0"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
