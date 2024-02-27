@@ -1,0 +1,36 @@
+name: pipeline
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  PYTHON_VERSION: 3.10
+  POETRY_VERSION: 1.7.0
+  POETRY_URL: https://install.python-poetry.org
+  MONGO_DB_USER: ${{ secrets.MONGO_DB_USER }}
+  MONGO_DB_PASSWORD: ${{ secrets.MONGO_DB_PASSWORD }}
+
+jobs:
+  run-pipelines:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Poetry
+        run: |
+          curl -sSL ${{ env.POETRY_URL }} | python - --version ${{ env.POETRY_VERSION }}
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: poetry
+
+      - name: Install Dependencies
+        run: poetry install
+
+      - name: Run Pipelines
+        run: poetry run main.py

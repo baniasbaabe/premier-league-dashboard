@@ -23,7 +23,10 @@ CONNECTION_STRING = f"mongodb+srv://{os.getenv("MONGO_DB_USERNAME")}:{os.getenv(
  
 client = MongoClient(CONNECTION_STRING)
 
-client["soccerstats"].drop_collection("soccerstats_items")
+try:
+  client["soccerstats"].drop_collection("soccerstats_items")
+except:
+  pass
  
 database = client['soccerstats']
 
