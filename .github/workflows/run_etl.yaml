@@ -6,7 +6,7 @@ on:
     - cron: '0 0 * * *'
 
 env:
-  PYTHON_VERSION: 3.10
+  PYTHON_VERSION: 3.10.13
   POETRY_VERSION: 1.7.0
   POETRY_URL: https://install.python-poetry.org
   MONGO_DB_USER: ${{ secrets.MONGO_DB_USER }}
@@ -27,7 +27,6 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: poetry
 
       - name: Install Dependencies
         run: poetry install
