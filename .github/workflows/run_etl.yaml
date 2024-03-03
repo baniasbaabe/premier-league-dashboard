@@ -9,7 +9,7 @@ env:
   PYTHON_VERSION: 3.10.13
   POETRY_VERSION: 1.7.0
   POETRY_URL: https://install.python-poetry.org
-  MONGO_DB_USER: ${{ secrets.MONGO_DB_USER }}
+  MONGO_DB_USERNAME: ${{ secrets.MONGO_DB_USERNAME }}
   MONGO_DB_PASSWORD: ${{ secrets.MONGO_DB_PASSWORD }}
 
 jobs:

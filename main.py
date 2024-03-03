@@ -36,12 +36,12 @@ teams_dim = pl.DataFrame({
     "team_id": list(range(len(players_stats["team"].unique())))
 })
 
-players_stats.join(teams_dim, how="inner", on="team").drop("team")
-teams_stats.join(teams_dim, how="inner", on="team").drop("team")
+players_stats = players_stats.join(teams_dim, how="inner", on="team").drop("team")
+teams_stats = teams_stats.join(teams_dim, how="inner", on="team").drop("team")
 
   
 CONNECTION_STRING = f"mongodb+srv://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@cluster0.0sqf03e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
- 
+
 client = MongoClient(CONNECTION_STRING, )
 
 try:
