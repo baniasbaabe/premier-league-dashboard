@@ -36,8 +36,12 @@ teams_dim = pl.DataFrame({
     "team_id": list(range(len(players_stats["team"].unique())))
 })
 
-players_stats = players_stats.join(teams_dim, how="inner", on="team").drop("team")
-teams_stats = teams_stats.join(teams_dim, how="inner", on="team").drop("team")
+players_stats = players_stats.join(teams_dim, how="inner", on="team").drop("team").select(["team_id", "player", "nation", "pos", "age", "Playing Time-Min", "Performance-Gls", "Performance-Ast", "Performance-G+A", "Performance-PK", "Expected-xG", "Standard-Gls", "Tackles-Tkl", "Performance-Saves", "Performance-Save%", "Err"])
+teams_stats = teams_stats.join(teams_dim, how="inner", on="team").drop(["team"]).select(["team_id", "Age", "Poss", "Performance-Gls", "Performance-Ast", "Performance-G+A", "Performance-CrdY", "Performance-CrdR", "Expected-xG", "Standard-Gls", "Tackles-Tkl"])
+
+print(teams_stats.columns)
+print("\n")
+print(players_stats.columns)
 
   
 CONNECTION_STRING = f"mongodb+srv://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@cluster0.0sqf03e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -45,15 +49,14 @@ CONNECTION_STRING = f"mongodb+srv://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv(
 client = MongoClient(CONNECTION_STRING, )
 
 try:
-  client["Soccerstats"].drop_collection("FactPlayers")
-  client["Soccerstats"].drop_collection("FactTeams")
-  client["Soccerstats"].drop_collection("DimTeams")
+  client["Soccerstats"].drop_collection("FactPlayer")
+  client["Soccerstats"].drop_collection("FactTeam")
+  client["Soccerstats"].drop_collection("DimTeam")
 except:
   pass
 
 database = client['Soccerstats']
 
-
-database["FactPlayers"].insert_many(players_stats.to_dicts())
-database["FactTeams"].insert_many(teams_stats.to_dicts())
-database["DimTeams"].insert_many(teams_dim.to_dicts())
+database["DimTeam"].insert_many(teams_dim.to_dicts())
+database["FactPlayer"].insert_many(players_stats.to_dicts())
+database["FactTeam"].insert_many(teams_stats.to_dicts())
